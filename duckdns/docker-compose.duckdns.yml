@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  duckdns:
+    image: linuxserver/duckdns:{ }
+    container_name: duckdns
+    environment:
+      - SUBDOMAINS=monsite
+      - TOKEN=ton_token_duckdns
+      - LOG_FILE=false
+    restart: unless-stopped

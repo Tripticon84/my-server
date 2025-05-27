@@ -1,0 +1,30 @@
+volumes:
+  nextcloud:
+  db:
+
+services:
+  db:
+    image: postgres:13
+    restart: always
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=nextcloud
+
+  app:
+    image: lscr.io/linuxserver/nextcloud:latest
+    container_name: nextcloud
+    environment:
+      - TZ=Europe/Paris
+      - POSTGRES_HOST=db
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=nextcloud
+    volumes:
+      - nextcloud:/config
+      - db:/data
+    ports:
+      - 8080:443
+    restart: unless-stopped
