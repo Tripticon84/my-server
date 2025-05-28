@@ -1,7 +1,6 @@
-version: "3"
-
 include:
   - "duckdns/docker-compose.duckdns.yml"
   - "nextcloud/docker-compose.nextcloud.yml"
-  - "nginx-proxy-manager/docker-compose.nginx-proxy-manager.yml"
-  # - "portainer/docker-compose.portainer.yml"
+  - "npmplus/docker-compose.npmplus.yml"
+  - "portainer/docker-compose.portainer.yml"
+  - "watchtower/docker-compose.watchtower.yml"
