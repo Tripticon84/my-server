@@ -1,11 +1,13 @@
-version: "3"
+version: "3.8"
 
 services:
   duckdns:
-    image: linuxserver/duckdns:{ }
+    image: lscr.io/linuxserver/duckdns:${DUCKDNS_IMAGE_VERSION:-latest}
     container_name: duckdns
-    environment:
-      - SUBDOMAINS=monsite
-      - TOKEN=ton_token_duckdns
-      - LOG_FILE=false
     restart: unless-stopped
+    environment:
+      - TZ=${TIMEZONE}
+      - SUBDOMAINS=${DUCKDNS_SUBDOMAINS}
+      - TOKEN=${DUCKDNS_TOKEN}
+    volumes:
+      - ./conf/config:/config
