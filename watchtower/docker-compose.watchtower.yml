@@ -1,0 +1,9 @@
+services:
+  watchtower:
+    image: containrrr/watchtower:${WATCHTOWER_IMAGE_VERSION:-latest}
+    environment:
+      WATCHTOWER_CLEANUP: ${WATCHTOWER_CLEANUP:-true}
+      WATCHTOWER_ROLLING_RESTART: ${WATCHTOWER_ROLLING_RESTART:-true}
+    restart: always
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
