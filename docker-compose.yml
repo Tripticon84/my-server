@@ -1,1 +1,6 @@
 include:
+  - "duckdns/docker-compose.duckdns.yml"
+  - "nextcloud/docker-compose.nextcloud.yml"
+  - "npmplus/docker-compose.npmplus.yml"
+  - "portainer/docker-compose.portainer.yml"
+  - "watchtower/docker-compose.watchtower.yml"
