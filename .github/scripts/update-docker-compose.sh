@@ -1,37 +1,37 @@
 #!/bin/bash
 
-# Script pour mettre à jour docker-compose.yml avec tous les fichiers docker-compose.xxx.yml des services
-# Exclut docker-compose.network.yml
+# Script to update docker-compose.yml with all docker-compose.xxx.yml files from services
+# Excludes docker-compose.network.yml
 
 set -e
 
-# Chemin du fichier docker-compose.yml
+# Path to the docker-compose.yml file
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 
-# Début du nouveau contenu
+# Start of the new content
 NEW_CONTENT="include:"
 
-# Créer une liste temporaire des fichiers à inclure
+# Create a temporary list of files to include
 TEMP_FILE=$(mktemp)
 
-# Rechercher tous les fichiers docker-compose.*.yml dans les sous-répertoires
+# Find all docker-compose.*.yml files in subdirectories
 find . -maxdepth 2 -name "docker-compose.*.yml" | sort > "$TEMP_FILE"
 
-# Parcourir la liste des fichiers
+# Loop through the list of files
 while read file; do
-    # Exclure docker-compose.network.yml
+    # Exclude docker-compose.network.yml
     if [[ "$file" != "./docker-compose.network.yml" ]]; then
-        # Extraire le chemin relatif
-        relative_path=${file:2}  # Supprimer le './' au début
+        # Extract the relative path
+        relative_path=${file:2}  # Remove the './' at the beginning
 
-        # Ajouter au contenu
+        # Add to the content
         NEW_CONTENT="$NEW_CONTENT\n  - \"$relative_path\""
     fi
 done < "$TEMP_FILE"
 
-# Supprimer le fichier temporaire
+# Remove the temporary file
 rm "$TEMP_FILE"
 
-# Écrire le nouveau contenu dans le fichier
+# Write the new content to the file
 echo -e "$NEW_CONTENT" > "$DOCKER_COMPOSE_FILE"
-echo "Le fichier $DOCKER_COMPOSE_FILE a été mis à jour avec succès."
+echo "The file $DOCKER_COMPOSE_FILE has been successfully updated."

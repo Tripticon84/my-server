@@ -2,9 +2,9 @@ name: Docker Compose Update & Env Vars Check
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
 
 jobs:
@@ -20,29 +20,23 @@ jobs:
           chmod +x .github/scripts/check-env-vars.sh
 
       - name: Check environment variables
-        run: |
-          ./.github/scripts/check-env-vars.sh
-        # Ajout du failFast pour s'assurer que l'action s'arrête si une variable est manquante
+        run: ./.github/scripts/check-env-vars.sh
         if: always()
-        # Cette étape échouera si le script retourne une erreur (code non zéro)
 
       - name: Update docker-compose.yml
         run: .github/scripts/update-docker-compose.sh
 
-
-      # Ne commit que si la vérification des variables a réussi
       - name: Commit changes if docker-compose.yml was modified
-        # Cette étape ne exécutera que si toutes les étapes précédentes ont réussi
         if: success()
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
 
-          # Vérifier si des modifications ont été apportées à docker-compose.yml
+          # Check if docker-compose.yml was modified
           if git diff --quiet docker-compose.yml; then
-            echo "Aucune modification n'a été apportée à docker-compose.yml"
+              echo "No changes were made to docker-compose.yml"
           else
-            git add docker-compose.yml
-            git commit -m "Mise à jour automatique de docker-compose.yml"
-            git push
+              git add docker-compose.yml
+              git commit -m "deploy: Automatic update of docker-compose.yml"
+              git push
           fi
