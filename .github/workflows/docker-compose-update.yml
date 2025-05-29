@@ -1,0 +1,48 @@
+name: Auto-update Docker Compose and Environment Variables
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  update-docker-compose:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Update docker-compose.yml includes
+      run: |
+        chmod +x .github/scripts/update-docker-compose.sh
+        ./.github/scripts/update-docker-compose.sh
+
+    - name: Check environment variables
+      run: |
+        chmod +x .github/scripts/check-env-vars.sh
+        ./.github/scripts/check-env-vars.sh
+
+    - name: Check for changes
+      id: git-check
+      run: |
+        git diff --exit-code docker-compose.yml || echo "changes=true" >> $GITHUB_OUTPUT
+
+    - name: Commit changes
+      if: steps.git-check.outputs.changes == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add docker-compose.yml
+        git commit -m "Auto-update docker-compose.yml includes [skip ci]" || exit 0
+
+    - name: Push changes
+      if: steps.git-check.outputs.changes == 'true'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
