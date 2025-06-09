@@ -15,7 +15,7 @@ NEW_CONTENT="include:"
 TEMP_FILE=$(mktemp)
 
 # Find all docker-compose.*.yml files in subdirectories
-find . -maxdepth 2 -name "docker-compose.*.yml" | sort > "$TEMP_FILE"
+find . -name "docker-compose.*.yml" | sort > "$TEMP_FILE"
 
 # Loop through the list of files
 while read file; do

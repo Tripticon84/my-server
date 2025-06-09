@@ -30,7 +30,7 @@ TEMP_FILE=$(mktemp)
 ALL_FILES=$(mktemp)
 
 # Find all docker-compose.*.yml files in subdirectories
-find . -maxdepth 2 -name "docker-compose.*.yml" | sort > "$ALL_FILES"
+find . -name "docker-compose.*.yml" | sort > "$ALL_FILES"
 
 # Loop through the list of files
 while read file; do
