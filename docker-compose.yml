@@ -1,1 +1,3 @@
 include:
+  - "homelab/portainer/docker-compose.portainer.yml"
+  - "homelab/uptime-kuma/docker-compose.uptime-kuma.yml"
