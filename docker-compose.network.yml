@@ -1,2 +1,48 @@
 networks:
-  srv: {}
+  srv:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+  monitoring:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.1.0/24
+
+  vpn:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.2.0/24
+
+  cloud:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.3.0/24
+
+  media:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.4.0/24
+
+  servarr:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.5.0/24
+
+  downloaders:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.6.0/24
+
+  tools:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.7.0/24
