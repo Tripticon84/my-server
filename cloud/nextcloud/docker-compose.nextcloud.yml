@@ -1,0 +1,41 @@
+networks:
+  nextcloud:
+
+volumes:
+  data:
+  db:
+
+services:
+
+  nextcloud-db:
+    image: "mariadb:lts"
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
+    environment:
+      MYSQL_DATABASE: ${NEXTCLOUD_MYSQL_DATABASE:-nextcloud}
+      MYSQL_USER: ${NEXTCLOUD_MYSQL_USER:-nextcloud}
+      MYSQL_PASSWORD: ${NEXTCLOUD_MYSQL_PASSWORD:-nextcloud}
+      MYSQL_ROOT_PASSWORD: ${NEXTCLOUD_MYSQL_ROOT_PASSWORD:-pass}
+    healthcheck:
+      test: ["CMD", "mariadbcheck", "--all-databases", "-ppass"]
+    networks:
+      - nextcloud
+    restart: always
+    volumes:
+      - db:/var/lib/mysql
+
+  nextcloud:
+    image: nextcloud:${NEXTCLOUD_IMAGE_VERSION:-latest}
+    ports:
+      - "8080:80"
+    environment:
+      TZ: ${TIMEZONE:-Europe/Paris}
+    depends_on:
+      - nextcloud-db
+    healthcheck:
+      test: ["CMD", "curl", "0.0.0.0:80"]
+    networks:
+      - nextcloud
+    restart: unless-stopped
+    volumes:
+      - ./conf:/config
+      - data:/var/www/html

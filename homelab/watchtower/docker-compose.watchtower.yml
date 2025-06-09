@@ -6,7 +6,7 @@ services:
       WATCHTOWER_ROLLING_RESTART: ${WATCHTOWER_ROLLING_RESTART:-true}
       WATCHTOWER_SCHEDULE: ${WATCHTOWER_SCHEDULE:-"0 0 * * *"}
       WATCHTOWER_TIMEOUT: ${WATCHTOWER_TIMEOUT:-60s}
-      TZ: ${TZ:-Europe/Paris}
+      TZ: ${TIMEZONE:-Europe/Paris}
     restart: always
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
