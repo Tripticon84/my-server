@@ -4,8 +4,8 @@ services:
     container_name: npmplus
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - "20080:80"
+      - "20443:443"
       - "81:81"
     volumes:
       - "/homelab/npmplus/data:/data"

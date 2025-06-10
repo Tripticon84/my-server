@@ -24,8 +24,8 @@ NPM Plus (Nginx Proxy Manager Plus) is an enhanced version of Nginx Proxy Manage
 
 ## Exposed Ports
 
-- **80**: HTTP port
-- **443**: HTTPS port
+- **20080**: HTTP port
+- **20443**: HTTPS port
 - **81**: NPM Plus admin web interface
 
 ## Useful Links
