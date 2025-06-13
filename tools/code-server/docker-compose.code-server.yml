@@ -1,0 +1,14 @@
+services:
+  code-server:
+    container_name: code-server
+    image: lscr.io/linuxserver/code-server:${CODE_SERVER_VERSION}
+    environment:
+      - TZ=${TIMEZONE}
+      - PASSWORD=${CODE_SERVER_PASSWORD}
+      - SUDO_PASSWORD=${CODE_SERVER_SUDO_PASSWORD}
+      - PROXY_DOMAIN=dev.${DOMAIN}
+    ports:
+      - ${PORT_CODE_SERVER_WEB}:8443
+    volumes:
+      - /homelab/code-server/conf:/config
+    restart: unless-stopped
