@@ -1,107 +1,95 @@
 #!/bin/bash
 
 # Script to check that all environment variables used in docker-compose.xxx.yml
-# are properly defined in .env.default
+# are properly defined in the .env.example file in the same directory.
 # Excludes docker-compose.network.yml
-# Updated to work with the new folder structure (cloud, homelab, media, etc.)
 
-set -e
+# Colors for terminal output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
 
-ENV_DEFAULT_FILE=".env.default"
-EXIT_CODE=0
-CATEGORIES=("cloud" "downloaders" "homelab" "media" "network" "servarr" "tools")
+# Initialize counters
+total_compose_files=0
+files_with_missing_vars=0
+total_missing_vars=0
 
-# Function to extract environment variables from a file
-extract_env_vars() {
-    local file=$1
-    # Search for strings starting with ${ and ending with }
-    grep -o '\${[^}]*}' "$file" | sed 's/\${//g' | sed 's/}//g' | sed 's/:-.*//g' | sort | uniq
+# Find all docker-compose files recursively but exclude network and specified folders
+echo "Scanning for docker-compose files..."
+compose_files=$(find . -name "docker-compose.*.yml" -not -name "docker-compose.network.yml" | sort)
 
-    # Also search for variables defined as $VAR (without braces)
-    grep -o '\$[A-Za-z0-9_]*' "$file" | sed 's/\$//g' | grep -v '^{' | sort | uniq
-}
-
-# Check if .env.default exists
-if [ ! -f "$ENV_DEFAULT_FILE" ]; then
-    echo "Error: File $ENV_DEFAULT_FILE does not exist."
-    exit 1
+if [ -z "$compose_files" ]; then
+  echo -e "${RED}No docker-compose files found!${NC}"
+  exit 1
 fi
 
-# Create a temporary file to store all found variables
-TEMP_FILE=$(mktemp)
-ALL_FILES=$(mktemp)
+# Process each compose file
+for compose_file in $compose_files; do
+  dir_path=$(dirname "$compose_file")
+  file_name=$(basename "$compose_file")
+  env_example="${dir_path}/.env.example"
+  missing_vars=0
 
-# Find all docker-compose.*.yml files in the root and all subdirectories
-find . -name "docker-compose.*.yml" | sort > "$ALL_FILES"
+  # Increment total count
+  ((total_compose_files++))
 
-# Check root docker-compose files first
-echo "=== Checking root docker-compose files ==="
-grep -v "/" "$ALL_FILES" | while read file; do
-    # Exclude docker-compose.network.yml
-    if [[ "$file" != "./docker-compose.network.yml" ]]; then
-        echo "Checking variables in $file..."
-        # Extract environment variables from the file
-        extract_env_vars "$file" >> "$TEMP_FILE"
+  echo -e "\n${YELLOW}Processing: ${NC}${file_name} (${dir_path})"
+
+  # Extract all environment variables (format: ${VAR_NAME})
+  env_vars=$(grep -o '\${[A-Za-z0-9_]*}' "$compose_file" | sort | uniq | sed 's/\${//g' | sed 's/}//g')
+
+  # Check if any environment variables were found
+  if [ -z "$env_vars" ]; then
+    echo -e "${GREEN}No environment variables used in this file. Skipping.${NC}"
+    continue
+  fi
+
+  # Check if .env.example exists
+  if [ ! -f "$env_example" ]; then
+    echo -e "${RED}Error: .env.example file not found in ${dir_path}${NC}"
+    ((files_with_missing_vars++))
+    continue
+  fi
+
+  # Check each variable against .env.example
+  for var in $env_vars; do
+    # Skip checking if the variable is TZ or PUID or PGID as these are common defaults
+    if [[ "$var" == "TZ" || "$var" == "PUID" || "$var" == "PGID" ]]; then
+      continue
     fi
+
+    if ! grep -q "^$var=" "$env_example" && ! grep -q "^# $var=" "$env_example"; then
+      echo -e "${RED}Missing variable in .env.example: ${var}${NC}"
+      ((missing_vars++))
+      ((total_missing_vars++))
+    fi
+  done
+
+  # Summary for this file
+  if [ $missing_vars -eq 0 ]; then
+    echo -e "${GREEN}All variables properly defined in .env.example${NC}"
+  else
+    echo -e "${RED}Found $missing_vars missing variables${NC}"
+    ((files_with_missing_vars++))
+  fi
 done
 
-# Then check files in each category
-for category in "${CATEGORIES[@]}"; do
-    echo ""
-    echo "=== Checking $category services ==="
-    grep "/$category/" "$ALL_FILES" | while read file; do
-        echo "Checking variables in $file..."
-        # Extract environment variables from the file
-        extract_env_vars "$file" >> "$TEMP_FILE"
-    done
-done
+# Final summary
+echo -e "\n${YELLOW}=== Summary ===${NC}"
+echo -e "Total compose files processed: $total_compose_files"
+echo -e "Files with missing variables: $files_with_missing_vars"
+echo -e "Total missing variables: $total_missing_vars"
 
-# Remove the temporary file listing the files
-rm "$ALL_FILES"
-
-# Remove duplicates
-sort "$TEMP_FILE" | uniq > "${TEMP_FILE}.uniq"
-mv "${TEMP_FILE}.uniq" "$TEMP_FILE"
-
-# Check if each variable is defined in .env.default
-MISSING_VARS=()
-TOTAL_VARS=0
-
-echo ""
-echo "=== Validating variables in $ENV_DEFAULT_FILE ==="
-while read var; do
-    # Ignore empty lines or common system variables
-    if [[ -z "$var" || "$var" == "PATH" || "$var" == "HOME" || "$var" == "USER" ]]; then
-        continue
-    fi
-
-    ((TOTAL_VARS++))
-
-    if ! grep -q "^$var=" "$ENV_DEFAULT_FILE" && ! grep -q "^$var:" "$ENV_DEFAULT_FILE"; then
-        echo "❌ Missing variable in $ENV_DEFAULT_FILE: $var"
-        MISSING_VARS+=("$var")
-        EXIT_CODE=1
-    else
-        echo "✅ Variable found in $ENV_DEFAULT_FILE: $var"
-    fi
-done < "$TEMP_FILE"
-
-# Remove the temporary file
-rm "$TEMP_FILE"
-
-echo ""
-echo "=== Summary ==="
-echo "Total variables found: $TOTAL_VARS"
-echo "Variables in $ENV_DEFAULT_FILE: $((TOTAL_VARS - ${#MISSING_VARS[@]}))"
-echo "Missing variables: ${#MISSING_VARS[@]}"
-
-if [ $EXIT_CODE -eq 0 ]; then
-    echo "✅ SUCCESS: All environment variables are properly defined in $ENV_DEFAULT_FILE."
+if [ $total_missing_vars -eq 0 ]; then
+  echo -e "\n${GREEN}All environment variables are properly defined!${NC}"
+  exit 0
 else
-    echo "❌ ERROR: The following variables are missing in $ENV_DEFAULT_FILE:"
-    for var in "${MISSING_VARS[@]}"; do
-        echo "  - $var"
-    done
+  echo -e "\n${RED}Some environment variables are missing in .env.example files!${NC}"
+  exit 1
 fi
-
-exit $EXIT_CODE
+  exit 0
+else
+  echo -e "\n${RED}Some environment variables are missing in .env.example files!${NC}"
+  exit 1
+fi
