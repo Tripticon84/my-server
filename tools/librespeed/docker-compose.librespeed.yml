@@ -1,0 +1,16 @@
+services:
+  speedtest:
+    container_name: speedtest
+    image: ghcr.io/librespeed/speedtest:latest
+    environment:
+      - MODE=standalone
+      - DISTANCE=km
+    ports:
+      - 3334:8080
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
