@@ -1,0 +1,20 @@
+services:
+  drawio:
+    container_name: drawio
+    image: jgraph/drawio:${DRAWIO_VERSION}
+    ports:
+      - ${PORT_DRAWIO_HTTP}:8080
+      - ${PORT_DRAWIO_HTTPS}:8443
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://drawio.${DOMAIN} || exit 1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
