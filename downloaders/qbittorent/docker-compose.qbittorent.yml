@@ -1,0 +1,24 @@
+services:
+  qbittorrent:
+    container_name: qbittorrent
+    image: linuxserver/qbittorrent:${QBITTORRENT_VERSION}
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+      - WEBUI_PORT=${PORT_QBITTORRENT_WEB}
+      - TORRENTING_PORT=${PORT_QBITTORRENT_TORRENTING}
+    ports:
+      - ${PORT_QBITTORRENT_WEB}:8080
+      - ${PORT_QBITTORRENT_TORRENTING}:6881/tcp
+      - ${PORT_QBITTORRENT_TORRENTING}:6881/udp
+    volumes:
+      - /homelab/qbitorrent/conf:/config
+      - /homelab/qbitorrent/SEEDBOX/Downloads:/downloads
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
