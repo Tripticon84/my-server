@@ -1,0 +1,22 @@
+services:
+  stirling-pdf:
+    container_name: stirling-pdf
+    image: stirlingtools/stirling-pdf:latest
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - LANGS=fr_FR
+    ports:
+      - '4009:8080'
+    volumes:
+      - /homelab/stirling-pdf/training-data:/usr/share/tessdata
+      - /homelab/stirling-pdf/conf:/configs
+      - /homelab/stirling-pdf/custom-files:/customFiles/
+      - /homelab/stirling-pdf/logs:/logs/
+      - /homelab/stirling-pdf/pipeline:/pipeline/
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
