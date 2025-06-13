@@ -1,0 +1,13 @@
+services:
+  excalidraw:
+    container_name: excalidraw
+    image: excalidraw/excalidraw:latest
+    ports:
+      - 5200:80
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
