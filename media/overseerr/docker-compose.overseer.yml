@@ -1,0 +1,19 @@
+services:
+  overseerr:
+    container_name: overseerr
+    image: lscr.io/linuxserver/overseerr:${OVERSEERR_VERSION}
+    environment:
+      - PUID=2015
+      - PGID=2001
+      - TZ=${TIMEZONE}
+    ports:
+      - ${PORT_OVERSEERR_WEB}:5055
+    volumes:
+      - /homelab/overseerr/config:/config
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
