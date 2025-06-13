@@ -1,48 +1,54 @@
 networks:
-  srv:
+  proxy:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.0.0/24
 
-  monitoring:
+  srv:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.1.0/24
 
-  vpn:
+  cloud:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.2.0/24
 
-  cloud:
+  downloaders:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.3.0/24
 
-  media:
+  homelab:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.4.0/24
 
-  servarr:
+  media:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.5.0/24
 
-  downloaders:
+  network:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.6.0/24
 
-  tools:
+  servarr:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.7.0/24
+
+  tools:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.8.0/24
