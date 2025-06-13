@@ -1,10 +1,16 @@
 services:
   portainer:
     container_name: portainer
-    image: portainer/portainer-${PORTAINER_EDITION:-ce}:${PORTAINER_IMAGE_VERSION:-latest}
+    image: portainer/portainer-${PORTAINER_EDITION}:${PORTAINER_VERSION}
     ports:
-      - 9443:9443
+      - ${PORT_PORTAINER_WEB}:9443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /homelab/portainer/data:/data
-    restart: always
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
