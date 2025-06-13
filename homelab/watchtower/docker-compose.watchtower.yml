@@ -1,12 +1,19 @@
 services:
   watchtower:
-    image: containrrr/watchtower:${WATCHTOWER_IMAGE_VERSION:-latest}
+    container_name: watchtower
+    image: containrrr/watchtower:${WATCHTOWER_VERSION}
     environment:
-      WATCHTOWER_CLEANUP: ${WATCHTOWER_CLEANUP:-true}
-      WATCHTOWER_ROLLING_RESTART: ${WATCHTOWER_ROLLING_RESTART:-true}
-      WATCHTOWER_SCHEDULE: ${WATCHTOWER_SCHEDULE:-"0 0 * * *"}
-      WATCHTOWER_TIMEOUT: ${WATCHTOWER_TIMEOUT:-60s}
-      TZ: ${TIMEZONE:-Europe/Paris}
-    restart: always
+      - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
+      - WATCHTOWER_ROLLING_RESTART=${WATCHTOWER_ROLLING_RESTART}
+      - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
+      - WATCHTOWER_TIMEOUT=${WATCHTOWER_TIMEOUT}
+      - TZ=${TIMEZONE}
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
