@@ -1,0 +1,24 @@
+services:
+  jellyfin:
+    container_name: jellyfin
+    image: lscr.io/linuxserver/jellyfin:${JELLYFIN_VERSION}
+    environment:
+      - PUID=2013
+      - PGID=2001
+      - TZ=${TIMEZONE}
+      - DOCKER_MODS=linuxserver/mods:jellyfin-opencl-intel
+    volumes:
+      - /homelab/jellyfin/library:/config
+      - /homelab/series:/data/tvshows
+      - /homelab/movies:/data/movies
+    ports:
+      - ${PORT_JELLYFIN_WEB}:8096
+      - ${PORT_JELLYFIN_WEB_SSL}:8920
+      - ${PORT_JELLYFIN_DISCOVERY}:7359/udp
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
