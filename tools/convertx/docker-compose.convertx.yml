@@ -1,0 +1,18 @@
+services:
+  convertx:
+    container_name: convertx
+    image: ghcr.io/c4illin/convertx:${CONVERTX_VERSION}
+    environment:
+      - JWT_SECRET=${CONVERTX_JWT_SECRET}
+      - LANGUAGE=${CONVERTX_LANGUAGE}
+    ports:
+      - ${PORT_CONVERTX_WEB}:3000
+    volumes:
+      - /homelab/convertx/data:/app/data
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
