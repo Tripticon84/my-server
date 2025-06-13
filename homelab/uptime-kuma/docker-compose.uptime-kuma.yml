@@ -1,10 +1,16 @@
 services:
   uptime-kuma:
-    image: louislam/uptime-kuma:${UPTIME_KUMA_IMAGE_VERSION:-latest}
     container_name: uptime-kuma
-    volumes:
-      - /homelab/uptime-kuma/data:/app/data
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+    image: louislam/uptime-kuma:${UPTIME_KUMA_VERSION}
     ports:
-      - 3001:3001
-    restart: always
+      - ${PORT_UPTIME_KUMA_WEB}:3001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /homelab/uptime-kuma/data:/app/data
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
