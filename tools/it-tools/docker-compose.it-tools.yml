@@ -1,0 +1,13 @@
+services:
+  it-tools:
+    container_name: it-tools
+    image: sharevb/it-tools:latest
+    ports:
+      - 4005:8080
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
