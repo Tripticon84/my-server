@@ -1,0 +1,44 @@
+services:
+  database:
+    container_name: nextcloud_database
+    image: linuxserver/mariadb:${NEXTCLOUD_DB_VERSION}
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+      - MYSQL_DATABASE=${NEXTCLOUD_MYSQL_DATABASE}
+      - MYSQL_USER=${NEXTCLOUD_MYSQL_USER}
+      - MYSQL_PASSWORD=${NEXTCLOUD_MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mariadb-check", "-A"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    volumes:
+      - /homelab/nextcloud/database/data:/var/lib/mysql
+    networks:
+      - srv
+    restart: unless-stopped
+
+  nextcloud:
+    container_name: nextcloud
+    image: nextcloud:${NEXTCLOUD_VERSION}
+    environment:
+      - TZ=${TIMEZONE}
+    user: "2001:2003"
+    ports:
+      - "${PORT_NEXTCLOUD_WEB}:80"
+    depends_on:
+      - database
+    volumes:
+      - /homelab/nextcloud/conf:/config
+      - /homelab/nextcloud/data:/var/www/html
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
