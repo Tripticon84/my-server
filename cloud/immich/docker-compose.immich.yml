@@ -1,5 +1,5 @@
 services:
-  immich-server:
+  immich_server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION}
     volumes:
@@ -16,7 +16,7 @@ services:
     healthcheck:
       disable: false
 
-  immich-machine-learning:
+  immich_machine_learning:
     container_name: immich_machine_learning
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION}
     volumes:
