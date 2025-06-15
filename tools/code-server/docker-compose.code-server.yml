@@ -1,7 +1,7 @@
 services:
   code-server:
     container_name: code-server
-    image: lscr.io/linuxserver/code-server:${CODE_SERVER_VERSION}
+    image: linuxserver/code-server:${CODE_SERVER_VERSION}
     environment:
       - TZ=${TIMEZONE}
       - PASSWORD=${CODE_SERVER_PASSWORD}

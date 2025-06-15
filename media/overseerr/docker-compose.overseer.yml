@@ -1,7 +1,7 @@
 services:
   overseerr:
     container_name: overseerr
-    image: lscr.io/linuxserver/overseerr:${OVERSEERR_VERSION}
+    image: linuxserver/overseerr:${OVERSEERR_VERSION}
     environment:
       - PUID=2015
       - PGID=2001

@@ -6,7 +6,7 @@ Code-Server is a tool that allows you to run VS Code on any machine and access i
 
 ### Code-Server
 
-- **Image**: `lscr.io/linuxserver/code-server:latest`
+- **Image**: `linuxserver/code-server:latest`
 - **Port**: 8443 (web interface)
 
 ## Environment Variables

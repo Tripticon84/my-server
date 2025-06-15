@@ -1,7 +1,7 @@
 services:
   your_spotify:
     container_name: your_spotify
-    image: lscr.io/linuxserver/your_spotify:latest
+    image: linuxserver/your_spotify:latest
     environment:
       - PUID=1000
       - PGID=1000

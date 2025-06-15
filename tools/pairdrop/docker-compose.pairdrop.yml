@@ -1,7 +1,7 @@
 services:
   pairdrop:
     container_name: pairdrop
-    image: lscr.io/linuxserver/pairdrop:latest
+    image: linuxserver/pairdrop:latest
     environment:
       - PUID=1000
       - PGID=1000
