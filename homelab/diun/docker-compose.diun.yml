@@ -1,0 +1,47 @@
+services:
+  diun:
+    image: crazymax/diun:${DIUN_VERSION}
+    container_name: diun
+    command: serve
+    volumes:
+      - "/homelab/diun/data:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - "TZ=Europe/Paris"
+      - "LOG_LEVEL=info"
+      - "LOG_JSON=false"
+      - "DIUN_WATCH_WORKERS=10"
+      - "DIUN_WATCH_SCHEDULE=0 0 * * 5"
+      - "DIUN_WATCH_JITTER=30s"
+      - "DIUN_PROVIDERS_DOCKER=true"
+      - "DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true"
+      - "DIUN_NOTIF_TELEGRAM_TOKEN=${DIUN_TELEGRAM_TOKEN}"
+      - "DIUN_NOTIF_TELEGRAM_CHATIDS=${DIUN_TELEGRAM_CHATIDS}"
+      - "DIUN_NOTIF_TELEGRAM_TEMPLATEBODY=
+          📦 *Mise à jour d’image Docker détectée*
+
+
+          🐳 *{{ .Meta.Name }}* (`{{ .Meta.ID }}`)
+
+          📝 Description : `{{ .Meta.Desc }}`
+
+          🏷️ *Version* : `{{ .Meta.Version }}`
+
+
+          🔔 *Statut* : `{{ .Entry.Status }}`
+
+          🖼️ *Image* : {{ if .Entry.Image.HubLink }}[{{ .Entry.Image }}]({{ .Entry.Image.HubLink }}){{ else }}{{ .Entry.Image }}{{ end }}
+
+          {{- if .Entry.Manifest.Created }}
+
+          📅 *Créée le* : `{{ .Entry.Manifest.Created }}`
+          {{- end }}
+
+          🔗 Dépôt : [{{ .Entry.Image.Path }}]({{ .Meta.URL }})"
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
