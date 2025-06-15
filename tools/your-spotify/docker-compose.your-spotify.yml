@@ -1,0 +1,32 @@
+services:
+  your_spotify:
+    container_name: your_spotify
+    image: lscr.io/linuxserver/your_spotify:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - APP_URL=${APP_URL}
+      - SPOTIFY_PUBLIC=${SPOTIFY_PUBLIC}
+      - SPOTIFY_SECRET=${SPOTIFY_SECRET}
+      - CORS=${CORS}
+      - MONGO_ENDPOINT=${MONGO_ENDPOINT}
+    ports:
+      - ${PORT_YOUR_SPOTIFY_HTTP}:80
+      - ${PORT_YOUR_SPOTIFY_HTTPS}:443
+    networks:
+      - srv
+    restart: unless-stopped
+
+  mongo:
+    container_name: mongo
+    image: mongo:6
+    volumes:
+      - /homelab/your_spotify:/data/db
+    networks:
+      - srv
+    restart: unless-stopped
+
+networks:
+  srv:
+    external: true
