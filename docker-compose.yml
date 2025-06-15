@@ -4,6 +4,7 @@ include:
   - "cloud/nextcloud/docker-compose.nextcloud.yml"
   - "cloud/vaultwarden/docker-compose.vaultwarden.yml"
   - "downloaders/qbittorent/docker-compose.qbittorent.yml"
+  - "homelab/diun/docker-compose.diun.yml"
   - "homelab/dockge/docker-compose.dockge.yml"
   - "homelab/portainer/docker-compose.portainer.yml"
   - "homelab/uptime-kuma/docker-compose.uptime-kuma.yml"
