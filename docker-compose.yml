@@ -21,3 +21,4 @@ include:
   - "tools/librespeed/docker-compose.librespeed.yml"
   - "tools/pairdrop/docker-compose.pairdrop.yml"
   - "tools/stirling-pdf/docker-compose.stirling-pdf.yml"
+  - "tools/your-spotify/docker-compose.your-spotify.yml"
