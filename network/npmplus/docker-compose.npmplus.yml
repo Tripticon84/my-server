@@ -1,7 +1,7 @@
 services:
   npmplus:
     container_name: npmplus
-    image: zoeyvid/npmplus:${NPMPLUS_VERSION:-latest}
+    image: zoeyvid/npmplus:${NPMPLUS_VERSION}
     environment:
       - TZ=${TIMEZONE}
     ports:
