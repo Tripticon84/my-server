@@ -12,7 +12,6 @@ services:
       - database
     networks:
       - srv
-      - cloud
     restart: unless-stopped
     healthcheck:
       disable: false
