@@ -27,7 +27,6 @@ services:
     image: nextcloud:${NEXTCLOUD_VERSION}
     environment:
       - TZ=${TIMEZONE}
-    user: "2001:2003"
     ports:
       - "${PORT_NEXTCLOUD_WEB}:80"
     depends_on:
