@@ -1,7 +1,7 @@
 services:
   adguardhome:
     container_name: adguardhome
-    image: adguard/adguardhome:${ADGUARD_HOME_VERSION}
+    image: adguard/adguardhome:latest
     ports:
       - 53:53/tcp # DNS
       - 53:53/udp # DNS
@@ -9,12 +9,12 @@ services:
       # - 80:80/udp # DNS over HTTP (DoH)
       # - 443:443/tcp # DNS over HTTPS (DoH)
       # - 443:443/udp # DNS over HTTPS (DoH)
-      - ${PORT_ADGUARD_HOME}:3000/tcp # Web interface
+      - 3000:3000/tcp # Web interface
       - 853:853/tcp # DNS over TLS (DoT)
       - 853:853/udp # DNS over TLS (DoT)
     volumes:
       - /homelab/adguard-home/data:/opt/adguardhome/data
-      - /homelab/adguard-home/conf:/opt/adguardhome/conf
+      - /homelab/adguard-home/config:/opt/adguardhome/conf
     networks:
       - srv
     restart: unless-stopped
