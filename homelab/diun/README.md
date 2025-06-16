@@ -11,14 +11,14 @@ Diun (Docker Image Update Notifier) is a utility that allows you to receive noti
 
 ## Environment Variables
 
-- **TZ**: Time zone (Europe/Paris)
-- **LOG_LEVEL**: Logging level (info)
-- **LOG_JSON**: JSON logging format (false)
-- **DIUN_WATCH_WORKERS**: Number of workers for monitoring (10)
+- **TZ**: Time zone (`Europe/Paris`)
+- **LOG_LEVEL**: Logging level (`info`)
+- **LOG_JSON**: JSON logging format (`false`)
+- **DIUN_WATCH_WORKERS**: Number of workers for monitoring (`10`)
 - **DIUN_WATCH_SCHEDULE**: Check schedule (`0 0 * * 5` - every Friday at midnight)
-- **DIUN_WATCH_JITTER**: Random delay between checks (30s)
-- **DIUN_PROVIDERS_DOCKER**: Enable Docker container monitoring (true)
-- **DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT**: Monitor all containers by default (true)
+- **DIUN_WATCH_JITTER**: Random delay between checks (`30s`)
+- **DIUN_PROVIDERS_DOCKER**: Enable Docker container monitoring (`true`)
+- **DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT**: Monitor all containers by default (`true`)
 - **DIUN_NOTIF_TELEGRAM_TOKEN**: Telegram token for notifications
 - **DIUN_NOTIF_TELEGRAM_CHATIDS**: Telegram chat IDs for notifications
 
