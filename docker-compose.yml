@@ -6,6 +6,7 @@ include:
   - "downloaders/qbittorent/docker-compose.qbittorent.yml"
   - "homelab/diun/docker-compose.diun.yml"
   - "homelab/dockge/docker-compose.dockge.yml"
+  - "homelab/homarr/docker-compose.homarr.yml"
   - "homelab/portainer/docker-compose.portainer.yml"
   - "homelab/uptime-kuma/docker-compose.uptime-kuma.yml"
   - "homelab/watchtower/docker-compose.watchtower.yml"
