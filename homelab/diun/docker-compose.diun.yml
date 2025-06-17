@@ -11,7 +11,7 @@ services:
       - "LOG_LEVEL=info"
       - "LOG_JSON=false"
       - "DIUN_WATCH_WORKERS=10"
-      - "DIUN_WATCH_SCHEDULE=0 0 * * 5"
+      - "DIUN_WATCH_SCHEDULE=0 0,12 * * *"
       - "DIUN_WATCH_JITTER=30s"
       - "DIUN_PROVIDERS_DOCKER=true"
       - "DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true"
@@ -21,11 +21,7 @@ services:
           📦 *Mise à jour d’image Docker détectée*
 
 
-          🐳 *{{ .Meta.Name }}* (`{{ .Meta.ID }}`)
-
-          📝 Description : `{{ .Meta.Desc }}`
-
-          🏷️ *Version* : `{{ .Meta.Version }}`
+          🐳 *{{ .Entry.Image.Path }}*
 
 
           🔔 *Statut* : `{{ .Entry.Status }}`
@@ -35,9 +31,7 @@ services:
           {{- if .Entry.Manifest.Created }}
 
           📅 *Créée le* : `{{ .Entry.Manifest.Created }}`
-          {{- end }}
-
-          🔗 Dépôt : [{{ .Entry.Image.Path }}]({{ .Meta.URL }})"
+          {{- end }}"
     networks:
       - srv
     restart: unless-stopped
