@@ -16,27 +16,8 @@ jobs:
 
       - name: Set execute permissions for scripts
         run: |
-          chmod +x .github/scripts/update-docker-compose.sh
           chmod +x .github/scripts/check-env-vars.sh
 
       - name: Check environment variables
         run: ./.github/scripts/check-env-vars.sh
         if: always()
-
-      - name: Update docker-compose.yml
-        run: .github/scripts/update-docker-compose.sh
-
-      - name: Commit changes if docker-compose.yml was modified
-        if: success()
-        run: |
-          git config --global user.name 'GitHub Action'
-          git config --global user.email 'action@github.com'
-
-          # Check if docker-compose.yml was modified
-          if git diff --quiet docker-compose.yml; then
-              echo "No changes were made to docker-compose.yml"
-          else
-              git add docker-compose.yml
-              git commit -m "deploy: Automatic update of docker-compose.yml"
-              git push
-          fi
