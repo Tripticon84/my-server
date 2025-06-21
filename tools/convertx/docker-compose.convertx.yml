@@ -12,7 +12,7 @@ services:
     networks:
       - srv
     restart: unless-stopped
-
+    user: 2502:2001
 networks:
   srv:
     external: true

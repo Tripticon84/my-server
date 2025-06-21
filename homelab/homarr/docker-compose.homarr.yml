@@ -12,6 +12,7 @@ services:
       - '7575:7575'
     networks:
       - srv
+    user: 2209:2001
 
 networks:
   srv:

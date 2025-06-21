@@ -3,8 +3,8 @@ services:
     container_name: plex
     image: linuxserver/plex:latest
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=2301
+      - PGID=2001
       - TZ=${TIMEZONE}
       - VERSION=docker
     volumes:

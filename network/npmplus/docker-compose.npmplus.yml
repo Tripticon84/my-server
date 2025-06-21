@@ -4,6 +4,7 @@ services:
     image: zoeyvid/npmplus:${NPMPLUS_VERSION}
     environment:
       - TZ=${TIMEZONE}
+
     ports:
       - "${PORT_NPMPLUS_HTTP}:80"
       - "${PORT_NPMPLUS_HTTPS}:443"
@@ -14,6 +15,7 @@ services:
     networks:
       - srv
     restart: unless-stopped
+    user: 2402:2001
 
 networks:
   srv:

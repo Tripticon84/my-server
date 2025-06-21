@@ -3,8 +3,8 @@ services:
     container_name: nextcloud_database
     image: linuxserver/mariadb:${NEXTCLOUD_DB_VERSION}
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=2003
+      - PGID=2001
       - TZ=${TIMEZONE}
       - MYSQL_DATABASE=${NEXTCLOUD_MYSQL_DATABASE}
       - MYSQL_USER=${NEXTCLOUD_MYSQL_USER}
@@ -37,6 +37,7 @@ services:
     networks:
       - srv
     restart: unless-stopped
+    user: 2003:2001
 
 networks:
   srv:

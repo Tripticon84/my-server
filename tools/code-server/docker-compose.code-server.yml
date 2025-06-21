@@ -3,6 +3,8 @@ services:
     container_name: code-server
     image: linuxserver/code-server:${CODE_SERVER_VERSION}
     environment:
+      - PUID=2501
+      - PGID=2001
       - TZ=${TIMEZONE}
       - PASSWORD=${CODE_SERVER_PASSWORD}
       - SUDO_PASSWORD=${CODE_SERVER_SUDO_PASSWORD}

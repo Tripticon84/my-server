@@ -3,18 +3,22 @@ services:
     container_name: jellyfin
     image: linuxserver/jellyfin:${JELLYFIN_VERSION}
     environment:
-      - PUID=2013
+      - PUID=2301
       - PGID=2001
       - TZ=${TIMEZONE}
       - DOCKER_MODS=linuxserver/mods:jellyfin-opencl-intel
     volumes:
-      - /homelab/jellyfin/library:/config
-      - /homelab/series:/data/tvshows
-      - /homelab/movies:/data/movies
+      - /homelab/jellyfin/config:/config
+      - /data/media/series:/data/series
+      - /data/media/movies:/data/movies
+      - /mnt/diskaladoree/video/:/data/diskaladoree
     ports:
       - ${PORT_JELLYFIN_WEB}:8096
       - ${PORT_JELLYFIN_WEB_SSL}:8920
       - ${PORT_JELLYFIN_DISCOVERY}:7359/udp
+      - ${PORT_JELLYFIN_DNLA}:1900/udp
+    devices:
+      - /dev/dri:/dev/dri
     networks:
       - srv
     restart: unless-stopped

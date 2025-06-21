@@ -5,7 +5,7 @@ services:
     command: serve
     volumes:
       - "/homelab/diun/data:/data"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
     environment:
       - "TZ=Europe/Paris"
       - "LOG_LEVEL=info"
@@ -18,23 +18,24 @@ services:
       - "DIUN_NOTIF_TELEGRAM_TOKEN=${DIUN_TELEGRAM_TOKEN}"
       - "DIUN_NOTIF_TELEGRAM_CHATIDS=${DIUN_TELEGRAM_CHATIDS}"
       - "DIUN_NOTIF_TELEGRAM_TEMPLATEBODY=
-          📦 *Mise à jour d’image Docker détectée*
+        📦 *Mise à jour d’image Docker détectée*
 
 
-          🐳 *{{ .Entry.Image.Path }}*
+        🐳 *{{ .Entry.Image.Path }}*
 
 
-          🔔 *Statut* : `{{ .Entry.Status }}`
+        🔔 *Statut* : `{{ .Entry.Status }}`
 
-          🖼️ *Image* : {{ if .Entry.Image.HubLink }}[{{ .Entry.Image }}]({{ .Entry.Image.HubLink }}){{ else }}{{ .Entry.Image }}{{ end }}
+        🖼️ *Image* : {{ if .Entry.Image.HubLink }}[{{ .Entry.Image }}]({{ .Entry.Image.HubLink }}){{ else }}{{ .Entry.Image }}{{ end }}
 
-          {{- if .Entry.Manifest.Created }}
+        {{- if .Entry.Manifest.Created }}
 
-          📅 *Créée le* : `{{ .Entry.Manifest.Created }}`
-          {{- end }}"
+        📅 *Créée le* : `{{ .Entry.Manifest.Created }}`
+        {{- end }}"
     networks:
       - srv
     restart: unless-stopped
+    user: 2207:2001
 
 networks:
   srv:

@@ -19,6 +19,7 @@ services:
     networks:
       - srv
     restart: unless-stopped
+    user: 2002:2001
 
 networks:
   srv:
