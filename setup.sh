@@ -41,6 +41,7 @@ declare -A users=(
     [librespeed]=2507
     [stirling-pdf]=2508
     [your-spotify]=2509
+    [pairdrop]=2510
 )
 
 # Création des utilisateurs
