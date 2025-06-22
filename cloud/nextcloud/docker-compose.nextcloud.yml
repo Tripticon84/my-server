@@ -37,7 +37,7 @@ services:
     networks:
       - srv
     restart: unless-stopped
-    user: 2003:2001
+
 
 networks:
   srv:

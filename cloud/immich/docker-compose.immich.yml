@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     healthcheck:
       disable: false
-    user: 2001:2001
+
 
   immich_machine_learning:
     container_name: immich_machine_learning
@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     healthcheck:
       disable: false
-    user: 2001:2001
+
 
   redis:
     container_name: immich_redis
@@ -37,7 +37,7 @@ services:
     restart: unless-stopped
     healthcheck:
       test: redis-cli ping || exit 1
-    user: 2001:2001
+
 
   database:
     container_name: immich_postgres
@@ -53,7 +53,7 @@ services:
     networks:
       - srv
     restart: unless-stopped
-    user: 2001:2001
+
 
 volumes:
   model-cache:

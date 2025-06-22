@@ -7,7 +7,7 @@ services:
     networks:
       - srv
     restart: unless-stopped
-    user: 2504:2001
+
 
 networks:
   srv:
