@@ -1,0 +1,18 @@
+services:
+  pingvin-share:
+    image: stonith404/pingvin-share
+    restart: unless-stopped
+    ports:
+      - 6548:3000
+    environment:
+      - TRUST_PROXY=true
+    volumes:
+      - /homelab/pingvin-share:/opt/app/backend/data
+      - /homelab/pingvin-share/data/images:/opt/app/frontend/public/img
+      - /homelab/pingvin-share/config/config.yaml:/opt/app/config.yaml
+    networks:
+      - srv
+
+networks:
+  srv:
+    external: true
