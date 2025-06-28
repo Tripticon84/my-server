@@ -1,16 +1,20 @@
 services:
-  speedtest:
-    container_name: speedtest
-    image: ghcr.io/librespeed/speedtest:latest
+  librespeed:
+    image: linuxserver/librespeed:latest
+    container_name: librespeed
     environment:
-      - MODE=standalone
-      - DISTANCE=km
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - PASSWORD=${LIBRE_SPEED_PASSWORD}
+      - IPINFO_APIKEY=${LIBRE_SPEED_ACCESS_TOKEN}
+    volumes:
+      - /homelab/librespeed/config:/config
     ports:
-      - 3334:8080
+      - 3334:80
+    restart: unless-stopped
     networks:
       - srv
-    restart: unless-stopped
-
 
 networks:
   srv:
