@@ -5,10 +5,10 @@ services:
     ports:
       - 53:53/tcp # DNS
       - 53:53/udp # DNS
-      # - 80:80/tcp # DNS over HTTP (DoH)
-      # - 80:80/udp # DNS over HTTP (DoH)
-      # - 443:443/tcp # DNS over HTTPS (DoH)
-      # - 443:443/udp # DNS over HTTPS (DoH)
+      - 80:80/tcp # DNS over HTTP (DoH)
+      - 80:80/udp # DNS over HTTP (DoH)
+      - 443:443/tcp # DNS over HTTPS (DoH)
+      - 443:443/udp # DNS over HTTPS (DoH)
       - 3000:3000/tcp # Web interface
       - 853:853/tcp # DNS over TLS (DoT)
       - 853:853/udp # DNS over TLS (DoT)
@@ -18,7 +18,6 @@ services:
     networks:
       - srv
     restart: unless-stopped
-
 
 networks:
   srv:
