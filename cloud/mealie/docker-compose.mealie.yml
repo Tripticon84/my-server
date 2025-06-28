@@ -7,7 +7,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=${TIMEZONE}
-      - BASE_URL=https://mealie.${DOMAIN}
+      - BASE_URL=https://${DOMAIN}
     ports:
       - "${PORT_MEALIE_WEB}:9000"
     volumes:
