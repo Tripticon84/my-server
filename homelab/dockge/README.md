@@ -6,7 +6,7 @@ Dockge is a lightweight, user-friendly web UI for managing Docker Compose stacks
 
 ### Dockge
 
-- **Image**: `louislam/dockge:1`
+- **Image**: `cmcooper1980/dockge:latest`
 - **Port**: 5001 (web interface)
 
 ## Environment Variables

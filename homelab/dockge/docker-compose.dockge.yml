@@ -1,7 +1,7 @@
 services:
   dockge:
     container_name: dockge
-    image: louislam/dockge:${DOCKGE_VERSION}
+    image: cmcooper1980/dockge:${DOCKGE_VERSION}
     environment:
       - DOCKGE_STACKS_DIR=/homelab/dockge/stacks
       - DOCKGE_ENABLE_CONSOLE=true

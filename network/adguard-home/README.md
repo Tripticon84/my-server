@@ -9,6 +9,8 @@ AdGuard Home is a network DNS server that protects your devices from ads, tracki
 - **Image**: `adguard/adguardhome:latest`
 - **Ports**:
   - 53 (DNS)
+  - 80 (DNS over HTTP)
+  - 443 (DNS over HTTPS)
   - 3000 (web interface)
   - 853 (DNS over TLS)
 
@@ -25,6 +27,10 @@ No environment variables are required for the basic configuration of AdGuard Hom
 
 - **53/tcp**: DNS service (TCP)
 - **53/udp**: DNS service (UDP)
+- **80/tcp**: DNS over HTTP (DoH) - TCP
+- **80/udp**: DNS over HTTP (DoH) - UDP
+- **443/tcp**: DNS over HTTPS (DoH) - TCP
+- **443/udp**: DNS over HTTPS (DoH) - UDP
 - **3000/tcp**: Administration web interface
 - **853/tcp**: DNS over TLS (DoT) - TCP
 - **853/udp**: DNS over TLS (DoT) - UDP
