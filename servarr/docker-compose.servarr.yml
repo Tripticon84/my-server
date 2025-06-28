@@ -1,0 +1,60 @@
+services:
+  radarr:
+    container_name: radarr
+    image: linuxserver/radarr:latest
+    environment:
+      - PUID=1002
+      - PGID=2001
+      - TZ=Europe/Paris
+    ports:
+      - 7878:7878
+    volumes:
+      - /homelab/servarr/radarr/config:/config
+      - /data/downloads:/downloads
+      - /data/media/movies:/movies
+    restart: unless-stopped
+    networks:
+      - srv
+  sonarr:
+    container_name: sonarr
+    image: linuxserver/sonarr:latest
+    ports:
+      - 7979:8989
+    environment:
+      - PUID=1002
+      - PGID=2001
+      - TZ=Europe/Paris
+    volumes:
+      - /homelab/servarr/sonarr/config:/config
+      - /data/downloads:/downloads
+      - /data/media/series:/series
+    restart: unless-stopped
+    networks:
+      - srv
+  prowlarr:
+    image: linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1002
+      - PGID=2001
+      - TZ=Europe/Paris
+    volumes:
+      - /homelab/servarr/prowlarr:/config
+    ports:
+      - 7980:9696
+    restart: unless-stopped
+    networks:
+      - srv
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    ports:
+      - 7981:8191
+    environment:
+      - LOG_LEVEL=info
+    restart: unless-stopped
+    networks:
+      - srv
+networks:
+  srv:
+    external: true
