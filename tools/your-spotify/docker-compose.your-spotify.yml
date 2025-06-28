@@ -3,8 +3,8 @@ services:
     container_name: your_spotify
     image: linuxserver/your_spotify:latest
     environment:
-      - PUID=2509
-      - PGID=2001
+      - PUID=1000
+      - PGID=1000
       - TZ=${TZ}
       - APP_URL=${APP_URL}
       - SPOTIFY_PUBLIC=${SPOTIFY_PUBLIC}
