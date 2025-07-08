@@ -18,6 +18,11 @@ services:
     networks:
       - srv
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
 
 networks:
   srv:
