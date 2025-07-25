@@ -6,7 +6,7 @@ services:
       - /homelab/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "${PORT_IMMICH_WEB}:2283"
+      - ${PORT_IMMICH_WEB}:2283
     depends_on:
       - redis
       - database
@@ -31,7 +31,7 @@ services:
 
   redis:
     container_name: immich_redis
-    image: docker.io/valkey/valkey:8-bookworm@sha256:fec42f399876eb6faf9e008570597741c87ff7662a54185593e74b09ce83d177
+    image: docker.io/valkey/valkey:8-bookworm@sha256:facc1d2c3462975c34e10fccb167bfa92b0e0dbd992fc282c29a61c3243afb11
     networks:
       - srv
     restart: unless-stopped
