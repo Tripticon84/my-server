@@ -1,0 +1,32 @@
+services:
+  copyparty:
+    image: copyparty/iv
+    container_name: copyparty
+    ports:
+      - 3923:3923
+    volumes:
+      - /homelab/copyparty:/cfg
+      - /data/downloads:/w/srv/downloads:rw
+      - /data/media:/w/srv/media:rw
+      - /homelab/:/w/srv/homelab:rw
+      - /data/music:/w/music:rw
+      - /data/cours:/w/cours:rw
+      - /data/priv:/w/priv:rw
+    environment:
+      LD_PRELOAD: /usr/lib/libmimalloc-secure.so.2
+      PYTHONUNBUFFERED: 1
+    stop_grace_period: 15s
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget --spider -q 127.0.0.1:3923/?reset=/._
+      interval: 1m
+      timeout: 2s
+      retries: 5
+      start_period: 15s
+    networks:
+      - srv
+
+networks:
+  srv:
+    external: true

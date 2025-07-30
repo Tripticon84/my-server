@@ -10,6 +10,7 @@ Here is the list of containers by category:
 
 | Name        | Image                                                                     | Ports     | Description                   |
 | ----------- | ------------------------------------------------------------------------- | --------- | ----------------------------- |
+| copyparty   | [copyparty/iv](https://github.com/9001/copyparty)                        | 3923:3923 | File server and sharing       |
 | immich      | [ghcr.io/immich-app/immich-server](https://github.com/immich-app/immich)  | 2283:2283 | Smart photo management        |
 | mealie      | [ghcr.io/mealie-recipes/mealie](https://github.com/mealie-recipes/mealie) | 9925:9000 | Recipe manager                |
 | nextcloud   | [nextcloud](https://hub.docker.com/_/nextcloud)                           | 8080:80   | Personal cloud                |
@@ -27,6 +28,7 @@ Here is the list of containers by category:
 | kutt         | [kutt/kutt](https://hub.docker.com/r/kutt/kutt)                                     | 6740:3000            | URL shortener                   |
 | librespeed   | [linuxserver/librespeed](https://docs.linuxserver.io/images/docker-librespeed/)     | 3334:80              | Network speed test              |
 | pairdrop     | [linuxserver/pairdrop](https://docs.linuxserver.io/images/docker-pairdrop/)         | 3200:3000            | Local file sharing              |
+| pingvin-share| [stonith404/pingvin-share](https://github.com/stonith404/pingvin-share)             | 6548:3000            | File sharing platform           |
 | stirling-pdf | [stirlingtools/stirling-pdf](https://hub.docker.com/r/stirlingtools/stirling-pdf)   | 4009:8080            | Advanced PDF tools              |
 | your_spotify | [linuxserver/your_spotify](https://docs.linuxserver.io/images/docker-your_spotify/) | 3240:80, 3241:443    | Self-hosted Spotify interface   |
 
