@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./homarr/appdata:/appdata
+      - /homelab/homarr/appdata:/appdata
     environment:
       - SECRET_ENCRYPTION_KEY=${HOMARR_SECRET_ENCRYPTION_KEY}
     ports:
