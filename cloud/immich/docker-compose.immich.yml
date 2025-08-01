@@ -3,7 +3,7 @@ services:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION}
     volumes:
-      - /homelab/immich/data:/usr/src/app/upload
+      - /homelab/immich/data:/data
       - /etc/localtime:/etc/localtime:ro
     ports:
       - ${PORT_IMMICH_WEB}:2283
