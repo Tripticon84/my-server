@@ -4,14 +4,12 @@ services:
     image: zoeyvid/npmplus:${NPMPLUS_VERSION}
     environment:
       - TZ=${TIMEZONE}
-
     ports:
       - "${PORT_NPMPLUS_HTTP}:80"
       - "${PORT_NPMPLUS_HTTPS}:443"
       - "${PORT_NPMPLUS_ADMIN}:81"
     volumes:
       - "/homelab/npmplus/data:/data"
-      - "/homelab/npmplus/letsencrypt:/etc/letsencrypt"
     networks:
       - srv
     restart: unless-stopped
