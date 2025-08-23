@@ -6,15 +6,14 @@ services:
       - 53:53/tcp # DNS
       - 53:53/udp # DNS
       - 80:80/tcp # DNS over HTTP (DoH)
-      - 80:80/udp # DNS over HTTP (DoH)
       - 443:443/tcp # DNS over HTTPS (DoH)
-      - 443:443/udp # DNS over HTTPS (DoH)
       - 3000:3000/tcp # Web interface
       - 853:853/tcp # DNS over TLS (DoT)
       - 853:853/udp # DNS over TLS (DoT)
     volumes:
-      - /homelab/adguard-home/data:/opt/adguardhome/data
+      - /homelab/adguard-home:/opt/adguardhome/work
       - /homelab/adguard-home/config:/opt/adguardhome/conf
+      - /homelab/npmplus/data/tls/certbot/archive/npm-1:/etc/letsencrypt
     networks:
       - srv
     restart: unless-stopped
