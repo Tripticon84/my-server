@@ -41,7 +41,6 @@ Here is the list of containers by category:
 | fail2ban     | [linuxserver/fail2ban](https://docs.linuxserver.io/images/docker-fail2ban/) | host network                  | Attack protection          |
 | portainer   | [portainer/portainer-ee](https://hub.docker.com/r/portainer/portainer-ee) | 9443:9443 | Container manager             |
 | uptime-kuma | [louislam/uptime-kuma](https://hub.docker.com/r/louislam/uptime-kuma)     | 3001:3001 | Service monitoring            |
-| watchtower  | [containrrr/watchtower](https://hub.docker.com/r/containrrr/watchtower)   | -         | Automatic updates             |
 
 ### Downloaders
 
