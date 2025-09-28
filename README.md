@@ -14,6 +14,8 @@ Here is the list of containers by category:
 | immich      | [ghcr.io/immich-app/immich-server](https://github.com/immich-app/immich)  | 2283:2283 | Smart photo management        |
 | mealie      | [ghcr.io/mealie-recipes/mealie](https://github.com/mealie-recipes/mealie) | 9925:9000 | Recipe manager                |
 | nextcloud   | [nextcloud](https://hub.docker.com/_/nextcloud)                           | 8080:80   | Personal cloud                |
+| n8n         | [n8nio/n8n](https://hub.docker.com/r/n8nio/n8n)                           | 5678:5678 | Workflow automation           |
+| syncthings  | [syncthing/syncthing](https://hub.docker.com/r/syncthing/syncthing)       | 8384:8384 | File synchronization          |
 | vaultwarden | [vaultwarden/server](https://hub.docker.com/r/vaultwarden/server)         | 5345:80   | Password manager              |
 
 ### Tools
@@ -38,7 +40,8 @@ Here is the list of containers by category:
 | ----------- | ------------------------------------------------------------------------- | --------- | ----------------------------- |
 | diun        | [crazymax/diun](https://hub.docker.com/r/crazymax/diun)                   | -         | Update notifier               |
 | dockge      | [cmcooper1980/dockge](https://hub.docker.com/r/cmcooper1980/dockge)       | 5001:5001 | Docker stack manager          |
-| fail2ban     | [linuxserver/fail2ban](https://docs.linuxserver.io/images/docker-fail2ban/) | host network                  | Attack protection          |
+| fail2ban    | [linuxserver/fail2ban](https://docs.linuxserver.io/images/docker-fail2ban/) | host network                  | Attack protection             |
+| homarr      | [ghcr.io/ajnart/homarr](https://github.com/ajnart/homarr)                 | 7575:7575 | Dashboard for services        |
 | portainer   | [portainer/portainer-ee](https://hub.docker.com/r/portainer/portainer-ee) | 9443:9443 | Container manager             |
 | uptime-kuma | [louislam/uptime-kuma](https://hub.docker.com/r/louislam/uptime-kuma)     | 3001:3001 | Service monitoring            |
 
@@ -50,11 +53,9 @@ Here is the list of containers by category:
 
 ### Media
 
-| Name      | Image                                                                         | Ports                                 | Description                |
-| --------- | ----------------------------------------------------------------------------- | ------------------------------------- | -------------------------- |
-| jellyfin  | [linuxserver/jellyfin](https://docs.linuxserver.io/images/docker-jellyfin/)   | 8096:8096, 8920:8920, 7359:7359/udp, 1900:1900/udp | Media server               |
-| overseerr | [linuxserver/overseerr](https://docs.linuxserver.io/images/docker-overseerr/) | 5055:5055                             | Media request management   |
-| plex      | [linuxserver/plex](https://docs.linuxserver.io/images/docker-plex/)           | host network                          | Media server               |
+| Name      | Image                                                                       | Ports                                 | Description                |
+| --------- | --------------------------------------------------------------------------- | ------------------------------------- | -------------------------- |
+| jellyfin  | [linuxserver/jellyfin](https://docs.linuxserver.io/images/docker-jellyfin/) | 8096:8096, 8920:8920, 7359:7359/udp, 1900:1900/udp | Media server               |
 
 ### Network
 
