@@ -1,0 +1,29 @@
+services:
+  cs2:
+    user: 1000:2001
+    image: cm2network/cs2:latest
+    container_name: cs2-server
+    restart: no
+    ports:
+      - 27015:27015/udp
+      - 27020:27020/udp
+    environment:
+      - SRCDS_TOKEN=${SRCDS_TOKEN}
+      - CS2_CHEATS=0
+      - CS2_SERVER_HIBERNATE=0
+      - SRCDS_PORT=27015
+      - SRCDS_TV_PORT=27020
+      - SRCDS_MAXPLAYERS=12
+      - SRCDS_REGION=3
+      - SRCDS_MAPGROUP=mg_active
+      - SRCDS_STARTMAP=de_dust2
+      - SRCDS_HOSTNAME="Serveur CS2 ESGI"
+      - SRCDS_RCONPW=yann9266
+    volumes:
+      - /homelab/cs2/data:/home/steam/cs2-dedicated
+      - /homelab/cs2/data/game/csgo/addons:/addons
+    networks:
+      - srv
+networks:
+  srv:
+    external: true
