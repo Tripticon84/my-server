@@ -1,6 +1,5 @@
 services:
   radarr:
-    container_name: radarr
     image: linuxserver/radarr:latest
     environment:
       - PUID=1002
@@ -12,11 +11,13 @@ services:
       - /homelab/servarr/radarr/config:/config
       - /data/downloads:/downloads
       - /data/media/movies:/movies
+      - /mnt/diskaladoree:/mnt/diskaladoree
+      - /home/yann/script/qbit-relocate.sh:/opt/scripts/qbit-relocate.sh:ro
+      - /var/log/qbit-relocate.log:/var/log/qbit-relocate.log:rw
     restart: unless-stopped
     networks:
       - srv
   sonarr:
-    container_name: sonarr
     image: linuxserver/sonarr:latest
     ports:
       - 7979:8989
@@ -28,12 +29,15 @@ services:
       - /homelab/servarr/sonarr/config:/config
       - /data/downloads:/downloads
       - /data/media/series:/series
+      - /data/media/animes:/animes
+      - /mnt/diskaladoree:/mnt/diskaladoree
+      - /home/yann/script/qbit-relocate.sh:/opt/scripts/qbit-relocate.sh:ro
+      - /var/log/qbit-relocate.log:/var/log/qbit-relocate.log:rw
     restart: unless-stopped
     networks:
       - srv
   prowlarr:
     image: linuxserver/prowlarr:latest
-    container_name: prowlarr
     environment:
       - PUID=1002
       - PGID=2001
@@ -47,12 +51,26 @@ services:
       - srv
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
     ports:
       - 7981:8191
     environment:
       - LOG_LEVEL=info
+      - TZ=Europe/Paris
     restart: unless-stopped
+    networks:
+      - srv
+  autobrr:
+    restart: always
+    image: ghcr.io/autobrr/autobrr:latest
+    user: 1002:2001
+    ports:
+      - 7474:7474
+    volumes:
+      - /homelab/servarr/autobrr:/config
+    environment:
+      - PUID=1002
+      - PGID=2001
+      - TZ=Europe/Paris
     networks:
       - srv
 networks:

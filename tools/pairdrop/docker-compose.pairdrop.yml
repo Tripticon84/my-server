@@ -3,8 +3,8 @@ services:
     container_name: pairdrop
     image: linuxserver/pairdrop:latest
     environment:
-      - PUID=2510
-      - PGID=2001
+      - PUID=1000
+      - PGID=1000
       - TZ=${TIMEZONE}
       - RATE_LIMIT=${RATE_LIMIT}
       - WS_FALLBACK=false
@@ -13,7 +13,6 @@ services:
     networks:
       - srv
     restart: unless-stopped
-
 networks:
   srv:
     external: true

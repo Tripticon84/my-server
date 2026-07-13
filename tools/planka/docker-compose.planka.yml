@@ -1,0 +1,43 @@
+services:
+  planka:
+    image: ghcr.io/plankanban/planka:2.0.0-rc.4
+    restart: on-failure
+    user: 1000:1000
+    volumes:
+      - /homelab/planka/favicons:/app/public/favicons
+      - /homelab/planka/data/user-avatars:/app/public/user-avatars
+      - /homelab/planka/data:/app/public/background-images
+      - /homelab/planka/data/attachments:/app/private/attachments
+    ports:
+      - 4321:1337
+    environment:
+      - BASE_URL=https://planka.example.com
+      - DATABASE_URL=postgresql://postgres@postgres/planka
+      - SECRET_KEY=1908fa0bd5323c3cdb641d1e9f7534bc4a77f56323a2dc4657328e70ebf481199df5acd2b142fcf0b9c3c833327cdf16f0c927b88af71d5951fa4efe245d8563
+      - TRUST_PROXY=true
+      - DEFAULT_LANGUAGE=fr_FR
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - srv
+  postgres:
+    image: postgres:16-alpine
+    restart: on-failure
+    volumes:
+      - /homelab/planka/data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=planka
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    networks:
+      - srv
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres -d planka
+      interval: 10s
+      timeout: 5s
+      retries: 5
+networks:
+  srv:
+    external: true

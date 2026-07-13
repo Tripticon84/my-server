@@ -1,0 +1,24 @@
+services:
+  qbittorrent:
+    container_name: qbittorrent
+    image: linuxserver/qbittorrent:${QBITTORRENT_VERSION}
+    environment:
+      - PUID=1002
+      - PGID=2001
+      - TZ=${TIMEZONE}
+      - WEBUI_PORT=${PORT_QBITTORRENT_WEB}
+      - TORRENTING_PORT=${PORT_QBITTORRENT_TORRENTING}
+    volumes:
+      - /homelab/servarr/qbitorrent/config:/config
+      - /data/downloads:/downloads
+      - /mnt/diskaladoree:/mnt/diskaladoree
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 10G
+    ports:
+      - "8073:8073"
+networks:
+  srv:
+    external: true
