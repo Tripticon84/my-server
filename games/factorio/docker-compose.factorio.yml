@@ -1,0 +1,14 @@
+services:
+  factorio:
+    image: factoriotools/factorio:stable-2.0.66
+    ports:
+      - 34197:34197/udp
+      - 34197:27015/tcp
+    volumes:
+      - /homelab/games/factorio:/factorio
+    restart: no
+    networks:
+      - srv
+networks:
+  srv:
+    external: true

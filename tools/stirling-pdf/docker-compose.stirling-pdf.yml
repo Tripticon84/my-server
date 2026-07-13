@@ -6,7 +6,7 @@ services:
       - DISABLE_ADDITIONAL_FEATURES=false
       - LANGS=fr_FR
     ports:
-      - '4009:8080'
+      - 4009:8080
     volumes:
       - /homelab/stirling-pdf/training-data:/usr/share/tessdata
       - /homelab/stirling-pdf/conf:/configs
@@ -16,7 +16,6 @@ services:
     networks:
       - srv
     restart: unless-stopped
-
 networks:
   srv:
     external: true

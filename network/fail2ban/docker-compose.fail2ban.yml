@@ -1,0 +1,18 @@
+services:
+  fail2ban:
+    image: linuxserver/fail2ban:latest
+    container_name: fail2ban
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+      - VERBOSITY=-vv #optional
+    volumes:
+      - /homelab/fail2ban/config/config:/config
+      - /var/log:/var/log:ro
+    restart: unless-stopped
+networks: {}

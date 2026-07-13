@@ -9,11 +9,9 @@ services:
     environment:
       - SECRET_ENCRYPTION_KEY=${HOMARR_SECRET_ENCRYPTION_KEY}
     ports:
-      - '7575:7575'
+      - 7575:7575
     networks:
       - srv
-
-
 networks:
   srv:
     external: true

@@ -5,25 +5,89 @@ services:
     container_name: cs2-server
     restart: no
     ports:
+      - 27015:27015/tcp
       - 27015:27015/udp
-      - 27020:27020/udp
+      - 27020:27020/tcp
     environment:
-      - SRCDS_TOKEN=${SRCDS_TOKEN}
+      - SRCDS_TOKEN=F307D7F6EF02650EDAE3C745B042F378
       - CS2_CHEATS=0
       - CS2_SERVER_HIBERNATE=0
-      - SRCDS_PORT=27015
-      - SRCDS_TV_PORT=27020
-      - SRCDS_MAXPLAYERS=12
-      - SRCDS_REGION=3
-      - SRCDS_MAPGROUP=mg_active
-      - SRCDS_STARTMAP=de_dust2
-      - SRCDS_HOSTNAME="Serveur CS2 ESGI"
-      - SRCDS_RCONPW=yann9266
+      - TV_ENABLE=1
+      - TV_PORT=27020
+      - CS2_RCONPW="yann9266"
+      - CS2_MAXPLAYERS=14
+      - CS2_PW=ESGI
+      - CS2_ADDITIONAL_ARGS="-nomaster"
     volumes:
       - /homelab/cs2/data:/home/steam/cs2-dedicated
       - /homelab/cs2/data/game/csgo/addons:/addons
     networks:
       - srv
+    depends_on:
+      - mysql
+  cs2-redirect:
+    image: nginx:alpine
+    container_name: cs2_redirect
+    ports:
+      - 27016:80
+    environment:
+      - SERVER_ADDR=82.65.157.135:27015
+      - SERVER_PASS=ESGI
+    command: >
+      /bin/sh -c "echo \"<html><head></head><body
+      style='background:#121212;color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;text-align:center;'><div><h1>Lancement
+      de CS2...</h1><p style='margin-bottom: 2rem;'>Si le jeu ne s'ouvre pas
+      automatiquement, utilisez le bouton ci-dessous :</p><a
+      href='steam://connect/$$SERVER_ADDR/$$SERVER_PASS'
+      style='background:#4dabf7;color:#121212;padding:15px
+      30px;text-decoration:none;border-radius:5px;font-weight:bold;font-size:1.2rem;display:inline-block;'>Rejoindre
+      le serveur</a><p style='margin-top: 2rem; font-size: 0.9rem; color:
+      #888;'>Ou tapez dans la console : <br><b style='color: white;'>connect
+      $$SERVER_ADDR; password
+      $$SERVER_PASS</b></p></div><script>setTimeout(function(){
+      window.location.href='steam://connect/$$SERVER_ADDR/$$SERVER_PASS'; },
+      500);</script></body></html>\" > /usr/share/nginx/html/index.html && nginx
+      -g 'daemon off;'"
+    networks:
+      - srv
+    restart: no
+  mysql:
+    image: mysql:8.0
+    container_name: weapon_db
+    environment:
+      - MYSQL_DATABASE=weaponpaints
+      - MYSQL_USER=userdb
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=rootpassword
+    ports:
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: no
+    networks:
+      - srv
+  weaponpaint-site:
+    restart: no
+    image: tripticon84/weaponpaints-website:latest
+    ports:
+      - 4678:80
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=weaponpaints
+      - DB_USER=userdb
+      - DB_PASS=password
+      - SKIN_LANGUAGE=skins_en
+      - STEAM_API_KEY=E40461AF16036277254AFCEB30D75C04
+      - STEAM_DOMAIN_NAME=https://cs2-skins.tripti84.me/
+      - STEAM_LOGOUT_PAGE=https://cs2-skins.tripti84.me/
+      - STEAM_LOGIN_PAGE=https://cs2-skins.tripti84.me/
+    depends_on:
+      - mysql
+    networks:
+      - srv
+volumes:
+  db_data: null
 networks:
   srv:
     external: true
