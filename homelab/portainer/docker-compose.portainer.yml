@@ -10,8 +10,6 @@ services:
     networks:
       - srv
     restart: unless-stopped
-
-
 networks:
   srv:
     external: true

@@ -1,20 +1,18 @@
 services:
   npmplus:
     container_name: npmplus
-    image: zoeyvid/npmplus:${NPMPLUS_VERSION}
+    image: zoeyvid/npmplus:${NPMPLUS_VERSION:-latest}
     environment:
       - TZ=${TIMEZONE}
     ports:
-      - "${PORT_NPMPLUS_HTTP}:80"
-      - "${PORT_NPMPLUS_HTTPS}:443"
-      - "${PORT_NPMPLUS_ADMIN}:81"
+      - ${PORT_NPMPLUS_HTTP}:80
+      - ${PORT_NPMPLUS_HTTPS}:443
+      - ${PORT_NPMPLUS_ADMIN}:81
     volumes:
-      - "/homelab/npmplus/data:/data"
+      - /homelab/npmplus/data:/data
     networks:
       - srv
     restart: unless-stopped
-
-
 networks:
   srv:
     external: true

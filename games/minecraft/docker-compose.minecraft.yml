@@ -1,0 +1,32 @@
+services:
+  survie:
+    image: itzg/minecraft-server:latest
+    tty: true
+    stdin_open: true
+    ports:
+      - 25565:25565
+      - 24454:24454/udp
+    environment:
+      EULA: "TRUE"
+      TYPE: MODRINTH
+      MODRINTH_MODPACK: https://modrinth.com/modpack/expandria
+      MEMORY: 4096M
+      MAX_PLAYERS: "1"
+      MOTD: Survie minecraft chill
+      USE_AIKAR_FLAGS: "true"
+      USE_MEOWICE_FLAGS: "false"
+      TZ: Europe/Paris
+      DIFFICULTY: "2"
+      VIEW_DISTANCE: "12"
+      OPS: Tripticon84
+      ENABLE_WHITELIST: "true"
+      WHITELIST: Tripticon84
+      PAUSE_WHEN_EMPTY_SECONDS: "360"
+    volumes:
+      - /homelab/games/minecraft/survie
+    restart: no
+    networks:
+      - srv
+networks:
+  srv:
+    external: true

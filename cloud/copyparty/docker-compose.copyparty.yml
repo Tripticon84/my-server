@@ -11,7 +11,9 @@ services:
       - /homelab/:/w/srv/homelab:rw
       - /data/music:/w/music:rw
       - /data/cours:/w/cours:rw
-      - /data/priv:/w/priv:rw
+      - /data/priv:/w/drive:rw
+      - /data/public:/w/public:rw
+      - /homelab/cs2/data/game/csgo/MatchZy_demos/2025-2026:/w/public/demos/2025-2026
     environment:
       LD_PRELOAD: /usr/lib/libmimalloc-secure.so.2
       PYTHONUNBUFFERED: 1
@@ -26,7 +28,7 @@ services:
       start_period: 15s
     networks:
       - srv
-
+    restart: always
 networks:
   srv:
     external: true

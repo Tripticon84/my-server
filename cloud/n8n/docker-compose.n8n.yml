@@ -1,7 +1,7 @@
 services:
-  n8n:
+  n8n-main:
     image: docker.n8n.io/n8nio/n8n:latest
-    container_name: n8n
+    container_name: n8n-main
     restart: always
     user: 1000:2001
     ports:
@@ -11,7 +11,6 @@ services:
       - N8N_PORT=5678
       - N8N_PROTOCOL=https
       - NODE_ENV=production
-      - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
       - TZ=${TZ}
@@ -20,26 +19,25 @@ services:
       - N8N_RUNNERS_BROKER_LISTEN_ADDRESS=0.0.0.0
       - N8N_NATIVE_PYTHON_RUNNER=true
       - N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}
+      - WEBHOOK_URL=https://n8n.example.com
       - N8N_PROXY_HOPS=1
     volumes:
       - /homelab/n8n/data:/home/node/.n8n
       - /homelab/logs/:/homelab/logs/
     networks:
       - srv
-
-  task-runners:
+  n8n-runners:
     image: n8nio/runners:latest
     container_name: n8n-runners
     environment:
       - N8N_RUNNERS_TASK_BROKER_URI=http://n8n-main:5679
       - N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}
-      - N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT=15
+      - N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT=90
     depends_on:
-      - n8n
-    restart: unless-stopped
+      - n8n-main
     networks:
       - srv
-
+    restart: unless-stopped
 networks:
   srv:
     external: true

@@ -1,0 +1,48 @@
+services:
+  qbittorrent:
+    container_name: qbittorrent
+    image: linuxserver/qbittorrent:${QBITTORRENT_VERSION}
+    network_mode: service:gluetun
+    environment:
+      - PUID=1002
+      - PGID=2001
+      - TZ=${TIMEZONE}
+      - WEBUI_PORT=${PORT_QBITTORRENT_WEB}
+      - TORRENTING_PORT=${PORT_QBITTORRENT_TORRENTING}
+    volumes:
+      - /homelab/servarr/qbitorrent/config:/config
+      - /data/downloads:/downloads
+      - /mnt/diskaladoree:/mnt/diskaladoree
+    restart: unless-stopped
+    depends_on:
+      - gluetun
+    deploy:
+      resources:
+        limits:
+          memory: 10G
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - VPN_SERVICE_PROVIDER=airvpn
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      # - SERVER_COUNTRIES=Netherlands
+      - SERVER_REGIONS=Europe
+      - FIREWALL_VPN_INPUT_PORTS=${PORT_QBITTORRENT_TORRENTING}
+      - FIREWALL_INPUT_PORTS=${PORT_QBITTORRENT_WEB}
+      - TZ=${TIMEZONE}
+    ports:
+      - ${PORT_QBITTORRENT_WEB}:${PORT_QBITTORRENT_WEB}
+      - ${PORT_QBITTORRENT_TORRENTING}:${PORT_QBITTORRENT_TORRENTING}/tcp
+      - ${PORT_QBITTORRENT_TORRENTING}:${PORT_QBITTORRENT_TORRENTING}/udp
+    networks:
+      - srv
+    restart: unless-stopped
+networks:
+  srv:
+    external: true
